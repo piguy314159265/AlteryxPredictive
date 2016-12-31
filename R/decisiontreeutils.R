@@ -263,7 +263,7 @@ convertDTParamsToArgsrxDTree <- function(params) {
 #' @param params list of decision tree params
 #' @return list with named parameters for C5.0
 convertDTParamsToArgsC5.0 <- function(params) {
-  arg_names <- c("trials", "rules", "weights")
+  arg_names <- c("trials", "rules")
   control_names <- c("subset", "bands", "winnow", "noGlobalPruning", "CF",
                      "minCases", "fuzzyThreshold", "sample", "seed",
                      "earlyStoping")
@@ -345,7 +345,8 @@ processDT <- function(inputs, config) {
   if(config$model.algorithm == "C5.0"){
     x <- the.data[, config$`X Vars`]
     y <- the.data[, config$`Y Var`]
-    args <- append(list(x = x, y = y), args)
+    weights <- if(config$used.weights) the.data[, config$select.weights] else NULL
+    args <- append(list(x = x, y = y, weights = weights), args)
   }
   model <- do.call(config$model.algorithm, args)
 
@@ -472,7 +473,12 @@ createReportDT.rxDTree <- function(model, config, names, xdf_path) {
 #' @inheritParams createReportDT
 #' @return dataframe of piped results
 createReportDT.C5.0 <- function(model, config, names, xdf_path) {
-  list(out = data.frame(grp = "summary", out = capture.output(summary(model))),
+  m2 <- model
+
+  m2$call$x <- as.symbol("x")
+  m2$call$y <- as.symbol("y")
+  m2$call$weights <- as.symbol("weights")
+  list(out = data.frame(grp = "summary", out = capture.output(summary(m2))),
          model = model, model_rpart = model
   )
 }
