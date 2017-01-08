@@ -60,7 +60,7 @@ errorDash <- function(
 ){
   return(
     badDash(
-      "Error in generating active report but not in model building."
+      "Error in generating interactive report but not in model building."
     )
   )
 }
