@@ -45,3 +45,22 @@ badDash <- function(
     fixed = TRUE
   )
 }
+
+#' Writes default error dashboard
+#'
+#' @param titleIn title of dash
+#' @param colorIn color in dash
+#' @param widthIn width
+#' @return dashboard object for rendering
+#' @export
+errorDash <- function(
+  titleIn = "Error",
+  colorIn = "aqua",
+  widthIn = 12
+){
+  return(
+    badDash(
+      "Error in generating active report but not in model building."
+    )
+  )
+}
