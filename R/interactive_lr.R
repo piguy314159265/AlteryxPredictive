@@ -9,7 +9,7 @@
 #' @return dashboard object for rendering
 #' @export
 #' @author Todd Morley
-interactive_lr <- function(
+interactive_lr2 <- function(
   config,
   data,
   model
@@ -387,5 +387,26 @@ interactive_lr <- function(
     body,
     fixed = TRUE
   )
+}
 
+#' Dashboard generation for logistic regression models
+#'
+#' @inheritParams interactive_lr2
+#' @return dashboard object for rendering
+#' @export
+interactive_lr <- function(
+  config,
+  data,
+  model
+){
+  tryCatch(
+    interactive_lr2(
+      config = config,
+      data = data,
+      model = model
+    ),
+    error = function(e) {
+      errorDash()
+    }
+  )
 }
