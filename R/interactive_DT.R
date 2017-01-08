@@ -9,7 +9,7 @@
 #' @return dashboard object for rendering
 #' @export
 #' @author Todd Morley
-interactive_dt <- function(
+interactive_dt2 <- function(
   config,
   data,
   model
@@ -394,5 +394,27 @@ interactive_dt <- function(
     fdSidebar(sidebar),
     body,
     fixed = TRUE
+  )
+}
+
+#' Dashboard generation for decision tree models
+#'
+#' @inheritParams interactive_dt2
+#' @return dashboard object for rendering
+#' @export
+interactive_dt <- function(
+  config,
+  data,
+  model
+){
+  tryCatch(
+    interactive_dt2(
+      config = config,
+      data = data,
+      model = model
+    ),
+    error = function(e) {
+      errorDash()
+    }
   )
 }
