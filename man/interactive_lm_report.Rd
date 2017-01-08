@@ -2,8 +2,7 @@
 % Please edit documentation in R/interactiveLMReport.R
 \name{interactive_lm_report}
 \alias{interactive_lm_report}
-\title{linear-model interactive-report function
-This function generates the interactive report for the Linear Model tool.}
+\title{Dashboard generation for linear regression models}
 \usage{
 interactive_lm_report(config, data, model)
 }
@@ -14,11 +13,10 @@ interactive_lm_report(config, data, model)
 
 \item{model}{model}
 }
-\description{
-linear-model interactive-report function
-This function generates the interactive report for the Linear Model tool.
+\value{
+dashboard object for rendering
 }
-\author{
-Todd Morley, Dylan Blanchard
+\description{
+Dashboard generation for linear regression models
 }
 
