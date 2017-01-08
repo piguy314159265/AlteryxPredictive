@@ -6,7 +6,7 @@
 #' @import MLmetrics DT
 #' @export
 #' @author Todd Morley, Dylan Blanchard
-interactive_lm_report <- function(
+interactive_lm_report2 <- function(
   config,
   data,
   model
@@ -484,4 +484,26 @@ interactive_lm_report <- function(
     fixed = TRUE
   )
 
+}
+
+#' Dashboard generation for linear regression models
+#'
+#' @inheritParams interactive_lm_report2
+#' @return dashboard object for rendering
+#' @export
+interactive_lm_report <- function(
+  config,
+  data,
+  model
+){
+  tryCatch(
+    interactive_lm_report2(
+      config = config,
+      data = data,
+      model = model
+    ),
+    error = function(e) {
+      errorDash()
+    }
+  )
 }
