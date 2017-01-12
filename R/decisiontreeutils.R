@@ -263,7 +263,7 @@ convertDTParamsToArgsrxDTree <- function(params) {
 #' @param params list of decision tree params
 #' @return list with named parameters for C5.0
 convertDTParamsToArgsC5.0 <- function(params) {
-  arg_names <- c("formula", "data", "trials", "rules", "weights")
+  arg_names <- c("trials", "rules", "weights")
   control_names <- c("subset", "bands", "winnow", "noGlobalPruning", "CF",
                      "minCases", "fuzzyThreshold", "sample", "seed",
                      "earlyStoping")
