@@ -342,6 +342,11 @@ processDT <- function(inputs, config) {
     params$data <- inputs$XDFInfo$xdf_path
 
   args <- convertDTParamsToArgs(params, config$model.algorithm)
+  if(config$model.algorithm == "C5.0"){
+    x <- the.data[, config$`X Vars`]
+    y <- the.data[, config$`Y Var`]
+    args <- append(list(x = x, y = y), args)
+  }
   model <- do.call(config$model.algorithm, args)
 
   if(config$model.algorithm == "C5.0") {
