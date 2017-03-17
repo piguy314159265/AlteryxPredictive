@@ -49,13 +49,7 @@ writeOutputs.DecisionTree <- function(results, config) {
   # Report Output
   write.Alteryx2(results$report, nOutput = 1)
   if(class(results$model) == "C5.0" && config$rules && config$tree.plot) {
-    AlteryxMessage2(
-      XMSG(
-        in.targetString_sc = "Tree Plot not available for C5.0 rules-based model"
-      ),
-      2,
-      2
-    )
+    AlteryxMessage2("Tree Plot not available for C5.0 rules-based model", 2, 2)
     config$tree.plot <- FALSE
   }
   # Tree Plot
@@ -142,20 +136,8 @@ runLogisticRegression <- function(inputs, config){
   if (config$regularization) {
     inputs$the.data <- checkMissing.omit(inputs$the.data)
     if ((config$internal_cv) && (config$nfolds > NROW(inputs$the.data))) {
-      AlteryxMessage2(
-        XMSG(
-          in.targetString_sc = "You chose more folds for internal cross-validation than the number of valid rows in your data."
-        ),
-        iType = 2,
-        iPriority = 3
-        )
-      AlteryxMessage2(
-        XMSG(
-          in.targetString_sc = "The number of folds used is being re-set to the number of valid rows in your data."
-        ),
-        iType = 2,
-        iPriority = 3
-      )
+      AlteryxMessage2("You chose more folds for internal cross-validation than the number of valid rows in your data.", iType = 2, iPriority = 3)
+      AlteryxMessage2("The number of folds used is being re-set to the number of valid rows in your data.", iType = 2, iPriority = 3)
       config$nfolds <- NROW(inputs$the.data)
     }
   }
@@ -198,20 +180,8 @@ runLinearRegression <- function(inputs, config){
   if (config$regularization) {
     inputs$the.data <- checkMissing.omit(inputs$the.data)
     if ((config$internal_cv) && (config$nfolds > NROW(inputs$the.data))) {
-      AlteryxMessage2(
-        XMSG(
-          in.targetString_sc = "You chose more folds for internal cross-validation than the number of valid rows in your data."
-        ),
-        iType = 2,
-        iPriority = 3
-      )
-      AlteryxMessage2(
-        XMSG(
-          in.targetString_sc = "The number of folds used is being re-set to the number of valid rows in your data."
-        ),
-        iType = 2,
-        iPriority = 3
-      )
+      AlteryxMessage2("You chose more folds for internal cross-validation than the number of valid rows in your data.", iType = 2, iPriority = 3)
+      AlteryxMessage2("The number of folds used is being re-set to the number of valid rows in your data.", iType = 2, iPriority = 3)
       config$nfolds <- NROW(inputs$the.data)
     }
   }
@@ -280,22 +250,12 @@ runDecisionTree <- function(inputs, config){
     config$GlobalPruning <- FALSE
   }
   if(config$use.weights && config$model.algorithm == "C5.0") {
-    AlteryxMessage2(
-      XMSG(
-        in.targetString_sc = "Case weights not currently supported with C5.0."
-      ),
-      2,
-      2
-    )
+    AlteryxMessage2("Case weights not currently supported with C5.0.", 2, 2)
     config$use.weights <- FALSE
   }
   if(config$model.algorithm == "C5.0" && config$rules){
     config$tree.plot <- FALSE
-    AlteryxMessage2(
-      XMSG(
-        in.targetString_sc = "Tree Plot not available for C5.0 when rules-based model is chosen."
-      )
-    )
+    AlteryxMessage2("Tree Plot not available for C5.0 when rules-based model is chosen")
   }
   results <- getResultsDecisionTree(inputs, config)
   writeOutputs(results, config)

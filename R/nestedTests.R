@@ -26,18 +26,10 @@ performNestedTest <- function(inputs){
 
   # Some initial error checking
   if(length(unique(yVars)) != 1) {
-    stop.Alteryx2(
-      XMSG(
-        in.targetString_sc = "The models have different target variables."
-      )
-    )
+    stop.Alteryx2("The models have different target variables")
   }
   if(modelClasses[1] != modelClasses[2]) {
-    stop.Alteryx2(
-      XMSG(
-        in.targetString_sc = "The models are not of the same class."
-      )
-    )
+    stop.Alteryx2("The models are not of the same class")
   }
 
 
@@ -47,20 +39,12 @@ performNestedTest <- function(inputs){
   smName <- modelNames[sm_i]; lgName <- modelNames[-sm_i]
 
   if(!all(smList %in% lgList)) {
-    stop(
-      XMSG(
-        in.targetString_sc = "The smaller model is not nested in the larger model."
-      )
-    )
+    stop("The smaller model is not nested in the larger model")
   }
 
   # Some additional error checking
   if(!all(c(yVars[1], lgList) %in% names(the.data))) {
-    stop(
-      XMSG(
-      in.targetString_sc = "Not all the variables used in the models are in the data stream."
-      )
-    )
+    stop("Not all the variables used in the models are in the data stream")
   }
 
   the_anova <- anova(smModel, lgModel)
@@ -138,11 +122,7 @@ unserializeInputs <- function(inputs){
 #Check to see if the model is an appropriate type for the Nested Test tool
 checkModelType <- function(model){
   if (inherits(model, "glmnet") || inherits(model, "cv.glmnet")) {
-    stop.Alteryx2(
-      XMSG(
-        in.targetString_sc = "Regularized models are not supported in the Nested Test tool at this time. Use a non-regularized model and try again."
-      )
-    )
+    stop.Alteryx2("Regularized models are not supported in the Nested Test tool at this time. Use a non-regularized model and try again.")
   }
 }
 
@@ -169,20 +149,16 @@ getTestTitle <- function(smList, lgList, lgName){
   removed_vars <- lgList[!(lgList %in% smList)]
   # Create a descriptive title for the test
   if(length(removed_vars) == 1) {
-    test_title <- XMSG(
-      in.targetString_sc = "The Effect of Removing the Variable @1 from @2",
-      in.firstBindVariable_sc = removed_vars,
-      in.secondBindVariable_sc = lgName
+    test_title <- paste(
+      "The Effect of Removing the Variable", removed_vars, "from", lgName
     )
   } else {
-      test_title <- XMSG(
-        in.targetString_sc = "The Effect of Removing the Variables @1 and @2 from @3",
-        in.firstBindVariable_sc = paste(removed_vars[1:(length(removed_vars) - 1)], collapse = ", "),
-        in.secondBindVariable_sc = removed_vars[length(removed_vars)],
-        in.thirdBindVariable_sc = lgName
-      )
+    rm_vars <- paste(removed_vars[1:(length(removed_vars) - 1)], collapse = ", ")
+    rm_vars <- paste(rm_vars, "and", removed_vars[length(removed_vars)])
+    test_title <- paste(
+      "The Effect of Removing the Variables", rm_vars, "from", lgName
+    )
   }
-  return(test_title)
 }
 
 # Check if an input has a model object
