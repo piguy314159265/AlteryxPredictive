@@ -4,25 +4,10 @@
 \alias{XMSG}
 \title{localization.R}
 \usage{
-XMSG(in.translString_sc, in.firstBindVar_sc = NULL,
-  in.secondBindVar_sc = NULL, in.thirdBindVar_sc = NULL,
-  in.fourthBindVar_sc = NULL, in.fifthBindVar_sc = NULL,
-  in.sixthBindVar_sc = NULL)
+XMSG(stringIn)
 }
 \arguments{
-\item{in.translString_sc}{the input string to translate}
-
-\item{in.firstBindVar_sc}{the first bind variable}
-
-\item{in.secondBindVar_sc}{the second bind variable}
-
-\item{in.thirdBindVar_sc}{the third bind variable}
-
-\item{in.fourthBindVar_sc}{the fourth bind variable}
-
-\item{in.fifthBindVar_sc}{the fifth bind variable}
-
-\item{in.sixthBindVar_sc}{the sixth bind variable}
+\item{stringIn}{the input string to translate}
 }
 \description{
 localization.R
