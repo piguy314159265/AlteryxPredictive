@@ -4,8 +4,7 @@
 \alias{badDash}
 \title{Create a dashboard outputting a single message}
 \usage{
-badDash(messageIn, titleIn = XMSG(in.targetString_sc = "Error"),
-  colorIn = "aqua", widthIn = 12)
+badDash(messageIn, titleIn = "Error", colorIn = "aqua", widthIn = 12)
 }
 \arguments{
 \item{messageIn}{message to output}

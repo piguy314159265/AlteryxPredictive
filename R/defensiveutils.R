@@ -4,20 +4,10 @@
 #' @return data with missing records excluded
 checkMissing.omit <- function(data) {
   if (sum(complete.cases(data)) < NROW(data)) {
-    AlteryxMessage2(
-      XMSG(
-        in.targetString_sc = "The data contains missing values. Rows with missing data are being removed."
-      ),
-      iType = 1,
-      iPriority = 3
-    )
+    AlteryxMessage2("The data contains missing values. Rows with missing data are being removed.", iType = 1, iPriority = 3)
     data <- (data)[complete.cases(data),]
     if (NROW(data) == 0) {
-      stop.Alteryx2(
-        XMSG(
-          in.targetString_sc = "Every row had at least one missing value. Clean your data and try again."
-        )
-      )
+      stop.Alteryx2("Every row had at least one missing value. Clean your data and try again.")
     }
   }
   data
@@ -58,8 +48,9 @@ verifyClass <- function(v, lvl){
     return ("")
   } else if(length(v_levels) == 1){
     AlteryxMessage2(
-      XMSG(
-        in.targetString_sc = "All records have the same results as a target variable. Modeling will not be helpful."
+      paste(
+        "All records have the same results as a target variable.",
+        "Modeling will not be helpful"
       ),
       2,
       2 #### Warning
@@ -73,8 +64,9 @@ verifyClass <- function(v, lvl){
       matches <- which(tolower(trimws(v_levels)) == tolower(trimws(lvl)))
       if(length(matches) == 1) {
         AlteryxMessage2(
-          XMSG(
-            in.targetString_sc = "The provided positive class was coerced by trimming and/or case-change to match the target variable."
+          paste(
+            "The provided positive class was coerced by",
+            "trimming and/or case-change to match the target variable."
           ),
           2,
           2 #### Warning
@@ -82,9 +74,7 @@ verifyClass <- function(v, lvl){
         return(v_levels[matches])
       } else {
         AlteryxMessage2(
-          XMSG(
-            in.targetString_sc = "The provided positive class was not present in target variable."
-          ),
+          "The provided positive class was not present in target variable.",
           2,
           2 #### Warning
         )

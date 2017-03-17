@@ -39,14 +39,13 @@ interactive_lm_report <- function(
     data <- data[,c(model$yvar, model$xvars)]
     cv_b <- TRUE
   } else{
-    return(
-      badDash(
-        XMSG(
-          in.targetString_sc = 'Interactive visualization not available for models of class @1.',
-          in.firstBindVariable_sc = class(model)
-        )
+    return(badDash(
+      paste0(
+        'Interactive visualization not available for models of class ',
+        class(model),
+        '.'
       )
-    )
+    ))
   }
   the_model <- model
   the_data <- data
@@ -146,29 +145,32 @@ interactive_lm_report <- function(
   }
   if(lm_b){
     sigma <- sigma(the_model)
-    f_statistic_text <- XMSG(
-      in.targetString_sc = '@1 on @2 and @3 degrees of freedom',
-      in.firstBindVariable_sc = round(
+    f_statistic_text <- paste(
+      round(
         x = summary(the_model)$fstatistic[1],
         digits = 2
       ),
-      in.secondBindVariable_sc = round(
+      'on',
+      round(
         x = summary(the_model)$fstatistic[2],
         digits = 2
       ),
-      in.thirdBindVariable_sc = summary(the_model)$fstatistic[3]
+      'and',
+      summary(the_model)$fstatistic[3],
+      'degrees of freedom',
+      sep = ' '
     )
   }
 
   # Prepare UI elements.
 
-  the_header <- fdHeader(title = XMSG(in.targetString_sc = 'Linear Regression'))
+  the_header <- fdHeader(tite = 'Linear Regression')
 
   # page 1:  summary (all models, most of it)
 
   row_1_1 <- fdRow(
     fdInfoBox(
-      title = XMSG(in.targetString_sc = 'R Squared'),
+      title = 'R Squared',
       value = round(
         x = r_squared,
         digits = digits
@@ -181,7 +183,7 @@ interactive_lm_report <- function(
       width = infoBoxWidth
     ),
     fdInfoBox(
-      title = XMSG(in.targetString_sc = 'Adjusted R Squared'),
+      title = 'Adjusted R Squared',
       value = round(
         x = adj_r_squared,
         digits = digits
@@ -197,7 +199,7 @@ interactive_lm_report <- function(
 
   row_1_2 <- fdRow(
     fdInfoBox(
-      title = XMSG(in.targetString_sc = 'Mean Absolute Error'),
+      title = 'Mean Absolute Error',
       value = round(
         x = mae,
         digits = digits
@@ -210,7 +212,7 @@ interactive_lm_report <- function(
       width = infoBoxWidth
     ),
     fdInfoBox(
-      title = XMSG(in.targetString_sc = 'Mean Absolute Percent Error'),
+      title = 'Mean Absolute Percent Error',
       value = round(
         x = mape,
         digits = digits
@@ -226,7 +228,7 @@ interactive_lm_report <- function(
 
   row_1_3 <- fdRow(
     fdInfoBox(
-      title = XMSG(in.targetString_sc = 'Mean Squared Error'),
+      title = 'Mean Squared Error',
       value = round(
         x = mse,
         digits = digits
@@ -239,7 +241,7 @@ interactive_lm_report <- function(
       width = infoBoxWidth
     ),
     fdInfoBox(
-      title = XMSG(in.targetString_sc = 'Root Mean Squared Error'),
+      title = 'Root Mean Squared Error',
       value = round(
         x = rmse,
         digits = digits
@@ -256,7 +258,7 @@ interactive_lm_report <- function(
   if(lm_b){
     row_1_4 <- fdRow(
       fdInfoBox(
-        title = XMSG(in.targetString_sc = 'F-Statistic'),
+        title = 'F-Statistic',
         value = f_statistic_text,
         icon = fdIcon(
           name = 'check',
@@ -266,14 +268,16 @@ interactive_lm_report <- function(
         width = infoBoxWidth
       ),
       fdInfoBox(
-        title = XMSG(in.targetString_sc = 'Residual Standard Error'),
-        value = XMSG(
-          in.targetString_sc = '@1 on @2 degrees of freedom',
-          in.firstBindVariable_sc = round(
+        title = 'Residual Standard Error',
+        value = paste(
+          round(
             x = sigma,
             digits = digits
           ),
-          in.secondBindVariable_sc = n - p
+          'on',
+          n - p,
+          'degrees of freedom',
+          sep = ' '
         ),
         icon = fdIcon(
           name = 'check',
@@ -359,7 +363,7 @@ interactive_lm_report <- function(
       fdPanelHistogram(
         x = the_residuals,
         digits = digits,
-        plotTitle = XMSG(in.targetString_sc = 'Histogram of Residuals')
+        plotTitle = 'Histogram of Residuals'
       ),
       width = totalWidth
     )
@@ -376,7 +380,7 @@ interactive_lm_report <- function(
   # Render.
 
   if(lm_b){
-    the_title <- XMSG(in.targetString_sc = 'Ordinary Least-Squares Linear Regression')
+    the_title <- 'Ordinary Least-Squares Linear Regression'
     # page 3: lm diagnostics
     row_3_1 <- fdRow(
       fdBox(
@@ -395,7 +399,7 @@ interactive_lm_report <- function(
       page_3
     )
     third_menu_item <- fdMenuItem(
-      text = XMSG(in.targetString_sc = 'Diagnostics'),
+      text = 'Diagnostics',
       icon = fdIcon(
         name = 'caret-right',
         lib = "font-awesome"
@@ -405,14 +409,14 @@ interactive_lm_report <- function(
   }
 
   if(regularized_b){
-    the_title <- XMSG(in.targetString_sc = 'Elastic-Net Linear Regression')
+    the_title <- 'Elastic-Net Linear Regression'
     # page 4:  glmnet coefficient profile paths
     row_4_1 <- fdRow(
       fdBox(
         fdPlotGlmnet(
           x = the_model,
           xvar = 'norm',
-          title = XMSG(in.targetString_sc = 'Coefficients vs. L1 Norm')
+          title = 'Coefficients vs. L1 Norm'
         ),
         width = totalWidth
       )
@@ -422,7 +426,7 @@ interactive_lm_report <- function(
         fdPlotGlmnet(
           x = the_model,
           xvar = 'lambda',
-          title = XMSG(in.targetString_sc = 'Coefficients vs. Log(Lambda)')
+          title = 'Coefficients vs. Log(Lambda)'
         ),
         width = totalWidth
       )
@@ -432,7 +436,7 @@ interactive_lm_report <- function(
         fdPlotGlmnet(
           x = the_model,
           xvar = 'dev',
-          title = XMSG(in.targetString_sc = 'Coefficients vs. Percent Deviance Explained')
+          title = 'Coefficients vs. Percent Deviance Explained'
         ),
         width = totalWidth
       )
@@ -450,7 +454,7 @@ interactive_lm_report <- function(
       page_4
     )
     third_menu_item <- fdMenuItem(
-      text = XMSG(in.targetString_sc = 'Coefficient Profiles'),
+      text = 'Coefficient Profiles',
       icon = fdIcon(
         name = 'caret-right',
         lib = "font-awesome"
@@ -460,7 +464,7 @@ interactive_lm_report <- function(
   }
 
   if(cv_b) {
-    the_title <- XMSG(in.targetString_sc = 'Cross-Validated Elastic-Net Linear Regression')
+    the_title <- 'Cross-Validated Elastic-Net Linear Regression'
     # page 5:  c.vglmnet CV MSE vs. log(lambda)
     row_5_1 <- fdRow(
       fdBox(
@@ -482,7 +486,7 @@ interactive_lm_report <- function(
       page_5
     )
     third_menu_item <- fdMenuItem(
-      text = XMSG(in.targetString_sc = 'Lambda Tuning'),
+      text = 'Lambda Tuning',
       icon = fdIcon(
         name = 'caret-right',
         lib = "font-awesome"
@@ -493,7 +497,7 @@ interactive_lm_report <- function(
 
   the_sidebar <- fdSidebarMenu(
     fdMenuItem(
-      text = XMSG(in.targetString_sc = 'Summary'),
+      text = 'Summary',
       icon = fdIcon(
         name = 'caret-right',
         lib = "font-awesome"
@@ -501,7 +505,7 @@ interactive_lm_report <- function(
       pageName = 'page_1'
     ),
     fdMenuItem(
-      text = XMSG(in.targetString_sc = 'Model Performance'),
+      text = 'Model Performance',
       icon = fdIcon(
         name = 'caret-right',
         lib = "font-awesome"

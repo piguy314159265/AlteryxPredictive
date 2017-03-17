@@ -33,12 +33,7 @@ read.Alteryx2 = function(name, mode = "data.frame",
     } else if (!(missing(default))){
       d <- default
     } else {
-      stop(
-        XMSG(
-          in.targetString_sc = "Missing Input @1",
-          in.firstBindVariable_sc = name
-        )
-      )
+      stop(paste("Missing Input", name))
     }
   }
   return(d)

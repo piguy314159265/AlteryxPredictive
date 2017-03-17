@@ -42,7 +42,7 @@ interactive_dt <- function(
   if('rpart' %in% class(model)){
     if(model$method == 'anova'){
       rpart_regression_b <- TRUE
-      title <- XMSG(in.targetString_sc = 'RPart Decision-Tree Regression')
+      title <- 'RPart Decision-Tree Regression'
       fitted_values <- predict(
         object = model,
         newdata = data,
@@ -66,7 +66,7 @@ interactive_dt <- function(
       residuals <- unname(actual_values - fitted_values)
     } else if(model$method == 'class'){
       rpart_classification_b <- TRUE
-      title <- XMSG(in.targetString_sc = 'RPart Decision-Tree Classification')
+      title <- 'RPart Decision-Tree Classification'
       fitted_values <- unname(
         predict(
           object = model,
@@ -76,14 +76,12 @@ interactive_dt <- function(
       )
     } else{
       return(badDash(
-        XMSG(
-          in.targetString_sc = 'Interactive visualization not available rpart model without method "class" or "anova" '
-        )
+        'Interactive visualization not available rpart model without method "class" or "anova" '
       ))
     }
   } else if('C5.0' %in% class(model)){
     c50_b <- TRUE
-    title <- XMSG(in.targetString_sc = 'C5.0 Decision-Tree Classification')
+    title <- 'C5.0 Decision-Tree Classification'
     fitted_values <- unname(
       predict(
         object = model,
@@ -93,14 +91,13 @@ interactive_dt <- function(
       )
     )
   } else{
-    return(
-      badDash(
-        XMSG(
-          in.targetString_sc = 'Interactive visualization not available for models of class @1.',
-          in.firstBindVariable_sc = class(model)
-        )
+    return(badDash(
+      paste0(
+        'Interactive visualization not available for models of class ',
+        class(model),
+        '.'
       )
-    )
+    ))
   }
   if(rpart_classification_b || c50_b){
     actual_values_f <- as.factor(actual_values)
@@ -116,7 +113,7 @@ interactive_dt <- function(
     # page 1:  summary
     row_1_1 <- fdRow(
       fdInfoBox(
-        title = XMSG(in.targetString_sc = 'R Squared'),
+        title = 'R Squared',
         value = round(
           x = r_squared,
           digits = digits
@@ -129,7 +126,7 @@ interactive_dt <- function(
         width = halfWidth
       ),
       fdInfoBox(
-        title = XMSG(in.targetString_sc = 'Adjusted R Squared'),
+        title = 'Adjusted R Squared',
         value = round(
           x = adj_r_squared,
           digits = digits
@@ -144,7 +141,7 @@ interactive_dt <- function(
     )
     row_1_2 <- fdRow(
       fdInfoBox(
-        title = XMSG(in.targetString_sc = 'Mean Absolute Error'),
+        title = 'Mean Absolute Error',
         value = round(
           x = MAE(
             y_pred = fitted_values,
@@ -160,7 +157,7 @@ interactive_dt <- function(
         width = halfWidth
       ),
       fdInfoBox(
-        title = XMSG(in.targetString_sc = 'Mean Absolute Percent Error'),
+        title = 'Mean Absolute Percent Error',
         value = round(
           x = MAPE(
             y_pred = fitted_values,
@@ -178,7 +175,7 @@ interactive_dt <- function(
     )
     row_1_3 <- fdRow(
       fdInfoBox(
-        title = XMSG(in.targetString_sc = 'Mean Squared Error'),
+        title = 'Mean Squared Error',
         value = round(
           x = MSE(
             y_pred = fitted_values,
@@ -194,7 +191,7 @@ interactive_dt <- function(
         width = halfWidth
       ),
       fdInfoBox(
-        title = XMSG(in.targetString_sc = 'Root Mean Squared Error'),
+        title = 'Root Mean Squared Error',
         value = round(
           x = RMSE(
             y_pred = fitted_values,
@@ -233,7 +230,7 @@ interactive_dt <- function(
         fdPanelHistogram(
           x = residuals,
           digits = digits,
-          plotTitle = XMSG(in.targetString_sc = 'Histogram of Residuals')
+          plotTitle = 'Histogram of Residuals'
         ),
         width = totalWidth
       )
@@ -268,7 +265,7 @@ interactive_dt <- function(
     )
     sidebar <- fdSidebarMenu(
       fdMenuItem(
-        text = XMSG(in.targetString_sc = 'Summary'),
+        text = 'Summary',
         icon = fdIcon(
           name = 'caret-right',
           lib = "font-awesome"
@@ -284,7 +281,7 @@ interactive_dt <- function(
         pageName = 'page_2'
       ),
       fdMenuItem(
-        text = XMSG(in.targetString_sc = 'Variable Importance'),
+        text = 'Variable Importance',
         icon = fdIcon(
           name = 'caret-right',
           lib = "font-awesome"
@@ -359,7 +356,7 @@ interactive_dt <- function(
       )
       sidebar <- fdSidebarMenu(
         fdMenuItem(
-          text = XMSG(in.targetString_sc = 'Summary'),
+          text = 'Summary',
           icon = fdIcon(
             name = 'caret-right',
             lib = "font-awesome"
@@ -367,7 +364,7 @@ interactive_dt <- function(
           pageName = 'page_1'
         ),
         fdMenuItem(
-          text = XMSG(in.targetString_sc = 'Misclassifications'),
+          text = 'Misclassifications',
           icon = fdIcon(
             name = 'caret-right',
             lib = "font-awesome"
@@ -375,7 +372,7 @@ interactive_dt <- function(
           pageName = 'page_2'
         ),
         fdMenuItem(
-          text = XMSG(in.targetString_sc = 'Tree'),
+          text = 'Tree',
           icon = fdIcon(
             name = 'caret-right',
             lib = "font-awesome"
@@ -392,7 +389,7 @@ interactive_dt <- function(
     } else{
       sidebar <- fdSidebarMenu(
         fdMenuItem(
-          text = XMSG(in.targetString_sc = 'Summary'),
+          text = 'Summary',
           icon = fdIcon(
             name = 'caret-right',
             lib = "font-awesome"
@@ -400,7 +397,7 @@ interactive_dt <- function(
           pageName = 'page_1'
         ),
         fdMenuItem(
-          text = XMSG(in.targetString_sc = 'Misclassifications'),
+          text = 'Misclassifications',
           icon = fdIcon(
             name = 'caret-right',
             lib = "font-awesome"
