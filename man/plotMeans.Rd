@@ -6,8 +6,8 @@
 \usage{
 plotMeans(response, factor1, factor2, error.bars = c("se", "sd", "conf.int",
   "none"), level = 0.95, xlab = deparse(substitute(factor1)),
-  ylab = XMSG("mean of @1", deparse(substitute(response))),
-  legend.lab = deparse(substitute(factor2)), main = XMSG("Plot of Means"),
+  ylab = paste("mean of", deparse(substitute(response))),
+  legend.lab = deparse(substitute(factor2)), main = "Plot of Means",
   pch = 1:n.levs.2, lty = 1:n.levs.2, col = palette(), ...)
 }
 \arguments{
